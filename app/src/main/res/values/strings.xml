@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HIIT Cards</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hiit">Welcome to HIIT Cards!</string>
+    <string name="start">Go!</string>
+    <string name="work_time">Enter workout time:</string>
+    <string name="title_activity_show_timer">Show Timer</string>
+</resources>
