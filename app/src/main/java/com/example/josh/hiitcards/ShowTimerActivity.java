@@ -6,20 +6,24 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 
 public class ShowTimerActivity extends Activity {
 
+    CardDeck exercise;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_show_timer);
         //  Create a text view in the layout, findViewById to have variable
-        final TextView timeRemaining = new TextView(this);
+        final TextView timeRemaining = (TextView) findViewById(R.id.timeRemaining);
         timeRemaining.setTextSize(40);
         timeRemaining.setText("00:00");
-        setContentView(timeRemaining);
+        //setContentView(timeRemaining);
 
         //  Get the intent to get how long the workout should last
         Intent intent = getIntent();
@@ -46,6 +50,8 @@ public class ShowTimerActivity extends Activity {
              }
         }.start();
 
+        exercise = new CardDeck();
+
     }
 
 /**
@@ -71,5 +77,44 @@ public class ShowTimerActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void nextCard(View view) {
+
+        TextView toDo = (TextView) view;
+        String thing;
+
+        Card card = exercise.draw();
+        int number = card.getRank();
+
+        if (number == 13) thing = "Do 10 Burpees!!! :D";
+        else {
+
+            StringBuilder things = new StringBuilder();
+            things.append("Do " + Integer.toString(number+1));
+            switch (card.getSuit()) {
+                case 0:
+                    things.append(" Squat");
+                    break;
+                case 1:
+                    things.append(" High-Knee");
+                    break;
+                case 2:
+                    things.append(" Push-up");
+                    break;
+                case 3:
+                    things.append(" Sit-up");
+                    break;
+                default:
+                    thing = " Something's wrong...";
+                    break;
+            }
+
+            if (number == 0) things.append("!");
+            else things.append("s!");
+            thing = things.toString();
+        }
+        toDo.setText(thing);
+
     }
 }
