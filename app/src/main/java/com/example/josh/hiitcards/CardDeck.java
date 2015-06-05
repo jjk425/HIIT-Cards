@@ -76,7 +76,7 @@ public class CardDeck {
      */
     public Card draw(){
         Card drawn = deck.remove(0);
-        if (deck.get(0) == null){
+        if (deck.size() == 0){
             populate(deck);
             shuffle(deck);
         }
