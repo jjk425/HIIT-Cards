@@ -22,6 +22,7 @@ public class ShowTimerActivity extends Activity {
         //  Create a text view in the layout, findViewById to have variable
         final TextView timeRemaining = (TextView) findViewById(R.id.timeRemaining);
         timeRemaining.setTextSize(40);
+        //  Should only show time remaining as "00:00" if there's something wronge below...
         timeRemaining.setText("00:00");
         //setContentView(timeRemaining);
 
@@ -38,7 +39,7 @@ public class ShowTimerActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 int minsRemaining = (int) millisUntilFinished / 60000;
                 int secsRemaining  = (int) millisUntilFinished / 1000 % 60;
-                String time = Integer.toString(minsRemaining) + ":" + Integer.toString(secsRemaining);
+                String time = Integer.toString(minsRemaining) + ":" + String.format("%02d", secsRemaining);
                 timeRemaining.setText(time);
             }
 
