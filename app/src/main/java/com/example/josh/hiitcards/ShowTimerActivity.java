@@ -7,52 +7,94 @@ import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 public class ShowTimerActivity extends Activity {
 
-    CardDeck exercise;
+    private CardDeck exercise;
+    private CountDownTimer timer;
+    private long timeInMilis;
+    private boolean timerRunning = false;
+    TextView timeRemaining; // = (TextView) findViewById(R.id.timeRemaining);
+    TextView cardExercise; // = (TextView) findViewById(R.id.Exercise);
+    Button startPauseButton; // = (Button) findViewById(R.id.startPauseButton);
+    Button finishButton; // = (Button) findViewById(R.id.finishButton);
+
+
+    Intent results = new Intent(this, ShowResults.class);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //  Set Content view
         setContentView(R.layout.activity_show_timer);
-        //  Create a text view in the layout, findViewById to have variable
-        final TextView timeRemaining = (TextView) findViewById(R.id.timeRemaining);
-        timeRemaining.setTextSize(40);
-        //  Should only show time remaining as "00:00" if there's something wronge below...
-        timeRemaining.setText("00:00");
-        //setContentView(timeRemaining);
+
+        //  Set the variable to access the Time Remaining TextView
+        timeRemaining = (TextView) findViewById(R.id.timeRemaining);
+
+        //  Declare final variables for the StartPause and Finish buttons
+        final Button strtPauseButton = (Button) findViewById(R.id.startPauseButton);
+        final Button fnishButton = (Button) findViewById(R.id.finishButton);
+        //  Set the instance variables to reference the final variables declared above
+        startPauseButton = strtPauseButton;
+        finishButton = fnishButton;
+
+        cardExercise = (TextView) findViewById(R.id.Exercise);
+
 
         //  Get the intent to get how long the workout should last
         Intent intent = getIntent();
         int time = intent.getIntExtra(MainActivity.EXTRA_TIME, 0);
-        long timeInMilis = (long) time * 60000;
 
-        //  Create a CountDowntimer with the time
-            //  On tick, updated the text view showing how much time is remaining
-            //  On finish, set text view to 00:00, start activity showing results
-        CountDownTimer timer = new CountDownTimer(timeInMilis, 1000) {
+        //  Convert the time into milliseconds and store in instance variable
+        this.timeInMilis = (long) time * 60000;
+
+
+        //  Initialize the text in the timeRemaining TextView by calling myTick with the time in Milis,
+        //  as received from the Intent
+        timeRemaining.setTextSize(40);
+        myTick(this.timeInMilis);
+
+        /**
+         *  Create a CountDowntimer with the time
+         *  Override the onTick and onFinish methods to call
+         *  myTick and myFinish respectively, defined below
+          */
+        this.timer = new CountDownTimer(timeInMilis+1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int minsRemaining = (int) millisUntilFinished / 60000;
-                int secsRemaining  = (int) millisUntilFinished / 1000 % 60;
-                String time = Integer.toString(minsRemaining) + ":" + String.format("%02d", secsRemaining);
-                timeRemaining.setText(time);
+                myTick(millisUntilFinished);
             }
 
             @Override
             public void onFinish() {
-                /** Start a new activity showing results, time completed, number of
-                 * each exercise completed, etc. */
-                timeRemaining.setText("00:00");
+                myFinish();
              }
-        }.start();
+        };
 
+        //  Initialize the CardDeck instance variable
         exercise = new CardDeck();
 
+    }
+
+    public void myTick(long mils){
+        int minsRemaining = (int) mils / 60000;
+        int secsRemaining  = (int) mils / 1000 % 60;
+        String time = Integer.toString(minsRemaining) + ":" + String.format("%02d", secsRemaining);
+        timeRemaining.setText(time);
+        timeInMilis = mils;
+
+    }
+
+    public void myFinish(){
+        /** Start a new activity showing results, time completed, number of
+         * each exercise completed, etc. */
+        timeRemaining.setText("00:00");
+        this.timeInMilis = 0;
     }
 
 /**
@@ -116,6 +158,39 @@ public class ShowTimerActivity extends Activity {
             thing = things.toString();
         }
         toDo.setText(thing);
+
+    }
+
+    public void pauseResume(View view){
+        if (timerRunning == true) {
+            timerRunning = false;
+            timer.cancel();
+            startPauseButton.setText("Resume");
+            finishButton.setVisibility(View.VISIBLE);
+            finishButton.setClickable(true);
+            cardExercise.setClickable(false);
+        }
+        else {
+            nextCard(cardExercise);
+            timerRunning = true;
+            cardExercise.setClickable(true);
+            startPauseButton.setText("Pause");
+            timer = new CountDownTimer(timeInMilis, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    myTick(millisUntilFinished);
+                }
+
+                @Override
+                public void onFinish() {
+                    myFinish();
+                }
+            }.start();
+        }
+
+    }
+
+    public void finishWorkout(View view){
 
     }
 }

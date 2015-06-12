@@ -18,10 +18,40 @@
     <TextView
         android:id="@+id/Exercise"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ready? GO!"
-        android:textSize="50dp"
+        android:layout_height="150sp"
+        android:text="Ready?"
+        android:textSize="50sp"
         android:onClick="nextCard"
-        android:clickable="true"/>
+        android:clickable="false"/>
+    <!-- Later I want to add an ImageView to have the actual Card images displayed,
+        which will be what the user touches to progress through the workout -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/startPauseButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="GO!"
+            android:clickable="true"
+            android:onClick="pauseResume"/>
+        <Button
+            android:id="@+id/finishButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:visibility="invisible"
+            android:text="Finish"
+            android:onClick="finishWorkout"/>
+
+        </LinearLayout>
 </LinearLayout>

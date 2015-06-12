@@ -54,7 +54,7 @@ public class CardDeck {
         int card1, card2, card3;
 
         //  To shuffle, randomly find 3 cards and rotate their positions, 100 times
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             //  Get the indices of 3 cards
             card1 = rand.nextInt(deck.size() - 1);
             card2 = rand.nextInt(deck.size() - 1);
