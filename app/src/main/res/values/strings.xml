@@ -7,4 +7,5 @@
     <string name="start">Go!</string>
     <string name="work_time">Enter workout time:</string>
     <string name="title_activity_show_timer">Show Timer</string>
+    <string name="title_activity_show_results">ShowResultsActivity</string>
 </resources>

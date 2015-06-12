@@ -23,7 +23,6 @@ public class ShowTimerActivity extends Activity {
     Button finishButton; // = (Button) findViewById(R.id.finishButton);
 
 
-    Intent results = new Intent(this, ShowResults.class);
 
 
     @Override
@@ -191,6 +190,8 @@ public class ShowTimerActivity extends Activity {
     }
 
     public void finishWorkout(View view){
-
+        //  Below will create intent to show results in new activity, once I implement that class
+        Intent results = new Intent(this, ShowResultsActivity.class);
+        startActivity(results);
     }
 }

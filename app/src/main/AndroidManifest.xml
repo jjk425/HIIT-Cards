@@ -24,6 +24,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.josh.hiitcards.MainActivity" />
         </activity>
+        <activity
+            android:name=".ShowResultsActivity"
+            android:label="@string/title_activity_show_results" >
+        </activity>
     </application>
 
 </manifest>
