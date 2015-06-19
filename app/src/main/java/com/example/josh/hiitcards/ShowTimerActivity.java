@@ -21,7 +21,7 @@ public class ShowTimerActivity extends Activity {
     TextView cardExercise; // = (TextView) findViewById(R.id.Exercise);
     Button startPauseButton; // = (Button) findViewById(R.id.startPauseButton);
     Button finishButton; // = (Button) findViewById(R.id.finishButton);
-
+    Boolean init = false;
 
 
 
@@ -63,7 +63,7 @@ public class ShowTimerActivity extends Activity {
          *  Override the onTick and onFinish methods to call
          *  myTick and myFinish respectively, defined below
           */
-        this.timer = new CountDownTimer(timeInMilis+1000, 1000) {
+        this.timer = new CountDownTimer(timeInMilis+1000, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 myTick(millisUntilFinished);
@@ -80,13 +80,14 @@ public class ShowTimerActivity extends Activity {
 
     }
 
-    public void myTick(long mils){
-        int minsRemaining = (int) mils / 60000;
-        int secsRemaining  = (int) mils / 1000 % 60;
-        String time = Integer.toString(minsRemaining) + ":" + String.format("%02d", secsRemaining);
-        timeRemaining.setText(time);
+    public void myTick(long mils) {
+        if (mils % 1000 == 0) {
+            int minsRemaining = (int) mils / 60000;
+            int secsRemaining = (int) mils / 1000 % 60;
+            String time = Integer.toString(minsRemaining) + ":" + String.format("%02d", secsRemaining);
+            timeRemaining.setText(time);
+        }
         timeInMilis = mils;
-
     }
 
     public void myFinish(){
@@ -94,6 +95,7 @@ public class ShowTimerActivity extends Activity {
          * each exercise completed, etc. */
         timeRemaining.setText("00:00");
         this.timeInMilis = 0;
+        finishWorkout(timeRemaining);
     }
 
 /**
@@ -170,11 +172,7 @@ public class ShowTimerActivity extends Activity {
             cardExercise.setClickable(false);
         }
         else {
-            nextCard(cardExercise);
-            timerRunning = true;
-            cardExercise.setClickable(true);
-            startPauseButton.setText("Pause");
-            timer = new CountDownTimer(timeInMilis, 1000) {
+            timer = new CountDownTimer(timeInMilis, 1) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     myTick(millisUntilFinished);
@@ -185,6 +183,14 @@ public class ShowTimerActivity extends Activity {
                     myFinish();
                 }
             }.start();
+            if (!init) {
+                nextCard(cardExercise);
+                init = true;
+            }
+            timerRunning = true;
+            cardExercise.setClickable(true);
+            startPauseButton.setText("Pause");
+
         }
 
     }
