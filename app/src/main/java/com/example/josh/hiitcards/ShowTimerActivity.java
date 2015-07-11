@@ -22,7 +22,7 @@ public class ShowTimerActivity extends Activity {
     Button startPauseButton; // = (Button) findViewById(R.id.startPauseButton);
     Button finishButton; // = (Button) findViewById(R.id.finishButton);
     Boolean init = false;
-
+    private final Statistics stats;
 
 
     @Override
@@ -58,11 +58,14 @@ public class ShowTimerActivity extends Activity {
         timeRemaining.setTextSize(40);
         myTick(this.timeInMilis);
 
+        this.stats = new Statistics();
+
+
         /**
          *  Create a CountDowntimer with the time
          *  Override the onTick and onFinish methods to call
-         *  myTick and myFinish respectively, defined below
-          */
+         *  myTick and myFinish respectively, defined below */
+
         this.timer = new CountDownTimer(timeInMilis+1000, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -91,22 +94,25 @@ public class ShowTimerActivity extends Activity {
     }
 
     public void myFinish(){
-        /** Start a new activity showing results, time completed, number of
-         * each exercise completed, etc. */
+        // Start a new activity showing results, time completed, number of
+        // each exercise completed, etc.
+
         timeRemaining.setText("00:00");
         this.timeInMilis = 0;
         finishWorkout(timeRemaining);
     }
 
 /**
- * Not needed for now
- *  @Override
+     * Not needed for now
+     *  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_timer, menu);
         return true;
     }
-*/
+ */
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,7 +129,7 @@ public class ShowTimerActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void nextCard(View view) {
+    public Card nextCard(View view) {
 
         TextView toDo = (TextView) view;
         String thing;
@@ -159,6 +165,7 @@ public class ShowTimerActivity extends Activity {
             thing = things.toString();
         }
         toDo.setText(thing);
+        return card;
 
     }
 
