@@ -10,44 +10,40 @@ public class Statistics {
 
 
     private HashMap<String, Integer> reps;
-    private HashMap<String, Integer> times;
+    private HashMap<String, Long> times;
+
+    //  TODO: Create a new class that has both the Card and the time for each card. The ArrayList should be of the new class Type
     private ArrayList<Card> cards;
 
     public Statistics(){
         this.reps = new HashMap<String, Integer>();
-        this.times = new HashMap<String, Integer>();
+        this.times = new HashMap<String, Long>();
         this.cards = new ArrayList<Card>();
-    /*
-        this.reps.put("Pushups", 0);
-        this.reps.put("Squats", 0);
-        this.reps.put("SitUps", 0);
-        this.reps.put("HighKnees", 0);
-        this.reps.put("Burpees", 0);
-        this.times.put("PushTime", 0);
-        this.times.put("SquatTime", 0);
-        this.times.put("SitTime", 0);
-        this.times.put("KneeTime", 0);
-        this.times.put("BurpeeTime", 0);
-    */
+
+        for (String suit : Card.suits){
+            reps.put(suit, 0);
+            times.put(suit, (long) 0);
+        }
+
 
     }
 
 
     /*
-    TODO: Create a static Hashmap on the MainActivity class so that the user can choose their workouts
+    TODO: Create a public final static array on the MainActivity class so that the user can choose their workouts
         Currently getting a string from the int that represents the workout on the Card object
     */
-    public void recordCard(Card card, int time){
+    public void recordCard(Card card, long time){
         int currentReps = reps.get(card.getSuit());
-        reps.put(Integer.toString(card.getSuit()), currentReps+card.getRank());
+        reps.put(card.getSuit(), currentReps+card.getRank());
 
-        int currentTime = times.get(card.getSuit());
-        times.put(Integer.toString(card.getSuit()), currentTime + time);
+        long currentTime = times.get(card.getSuit());
+        times.put(card.getSuit(), currentTime + time);
 
         cards.add(card);
     }
 
-    public int getTime(String exercise){
+    public long getTime(String exercise){
         return times.get(exercise);
     }
 
@@ -55,5 +51,15 @@ public class Statistics {
         return reps.get(exercise);
     }
 
+
+    @Override
+    public String toString(){
+        StringBuilder cstring = new StringBuilder();
+        for (Card c : cards){
+            //  TODO: convert this into the right string using the array of workouts that is to be built
+            cstring.append(c.toString()+'\n');
+        }
+        return cstring.toString();
+    }
 
 }

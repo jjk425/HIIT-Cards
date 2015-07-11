@@ -1,9 +1,11 @@
 package com.example.josh.hiitcards;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class ShowResultsActivity extends Activity {
@@ -12,6 +14,13 @@ public class ShowResultsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_results);
+
+        Intent intent = getIntent();
+        Statistics stats = ShowTimerActivity.stats;  //intent.getIntExtra(MainActivity.EXTRA_TIME, 0);
+        stats.toString();
+
+        TextView view = (TextView) findViewById(R.id.statText);
+        view.setText(stats.toString());
     }
 
 
