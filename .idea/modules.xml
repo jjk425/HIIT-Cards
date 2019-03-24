@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HIITCards.iml" filepath="$PROJECT_DIR$/HIITCards.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HIIT Cards.iml" filepath="$PROJECT_DIR$/HIIT Cards.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-
